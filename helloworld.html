@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindSpace - Your Mental Health Companion</title>
+    <meta name="description" content="24/7 multilingual mental health support with AI-powered empathetic conversations, self-care guidance, and crisis helplines. Private, accessible, and always available.">
+    <link rel="stylesheet" href="styling.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body> 
+  <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-content"> 
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <span class="logo-text">MindSpace</span>
+                </div>
+
+                <nav class="nav-desktop">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#support" class="nav-link">Support</a>
+                    <a href="#helplines" class="nav-link">Crisis Helplines</a>
+                </nav>
+                
+                <div class="nav-actions">
+                    <button class="btn btn-outline" id="signInBtn">
+                        <i class="fas fa-user"></i>
+                        Sign In
+                    </button>
+                </div>
+                
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <nav class="mobile-nav">
+                    <a href="#home" class="mobile-nav-link">Home</a>
+                    <a href="#features" class="mobile-nav-link">Features</a>
+                    <a href="#support" class="mobile-nav-link">Support</a>
+                    <a href="#helplines" class="mobile-nav-link">Crisis Helplines</a>
+                    <button class="btn btn-outline mobile-sign-in">
+                        <i class="fas fa-user"></i>
+                        Sign In
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="hero-background">
+                <div class="floating-element floating-1"></div>
+                <div class="floating-element floating-2"></div>
+                <div class="floating-element floating-3"></div>
+            </div>
+            
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">
+                            Your <span class="gradient-text">Safe Space</span> for Mental Wellness
+                        </h1>
+                        <p class="hero-description">
+                            24/7 multilingual mental health support with empathetic AI conversations, 
+                            personalized self-care guidance, and immediate access to crisis helplines. 
+                            Private, accessible, and always here when you need us.
+                        </p>
+                        <div class="hero-features">
+                            <div class="feature-item">
+                                <i class="fas fa-lock"></i>
+                                <span>100% Private & Confidential</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-clock"></i> 
+                                <span>Available 24/7</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-globe"></i>
+                                <span>Multilingual Support</span>
+                            </div>
+                        </div>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary btn-lg" id="getStartedBtn">
+                                <i class="fas fa-microphone"></i>
+                                Start Voice Session
+                            </button>
+                            <button class="btn btn-secondary btn-lg" id="getStopedBtn">
+                                <i class="fas fa-times"></i>
+                                Exit Voice Session
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-visual">
+                        <div class="hero-card">
+                            <div class="breathing-circle"></div>   
+                            <p class="hero-card-text">"Take a deep breath. You're not alone in this journey."</p>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <div class="container">
+                <h2 class="section-title">How MindSpace Supports You</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Empathetic Conversations</h3>
+                        <p>AI-powered conversations that truly understand your emotions and provide meaningful support.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart-pulse"></i>
+                        </div>
+                        <h3>Self-Care Guidance</h3>
+                        <p>Personalized mindfulness exercises, breathing techniques, and wellness strategies.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-phone-volume"></i>
+                        </div>
+                        <h3>Crisis Support</h3>
+                        <p>Immediate connection to professional helplines and emergency mental health resources.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3>Voice Interaction</h3>
+                        <p>Natural voice conversations that feel personal and comfortable, whenever you need them.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voice Assistant Interface -->
+        <div id="voiceAssistant" class="voice-assistant hidden">  
+            <div class="container">
+                <div class="assistant-header">
+                    <h1>Voice Assistant Session</h1>
+                    <button class="back-btn" id="backToHomeBtn">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+                
+                <div class="assistant-content">
+                    <!-- Voice Control -->
+                    <div class="voice-control">
+                        <button class="voice-btn" id="voiceBtn">
+                            <i class="fas fa-microphone" id="voiceIcon"></i>
+                            <div class="voice-ripple" id="voiceRipple1"></div>
+                            <div class="voice-ripple" id="voiceRipple2"></div>
+                        </button>
+                        <p class="voice-status" id="voiceStatus">Tap to start</p>
+                    </div>
+
+                    <!-- Transcript -->
+                    <div class="transcript-card hidden" id="transcriptCard">
+                        <h3>What you said:</h3>
+                        <p id="transcriptText"></p>
+                    </div>
+
+                    <!-- Tell Button -->
+                    <button class="btn btn-secondary btn-lg hidden" id="tellBtn">
+                        <i class="fas fa-volume-high"></i>
+                        Get Support & Guidance
+                    </button>
+
+                    <!-- Response -->
+                    <div class="response-card hidden" id="responseCard">
+                        <div class="response-header">
+                            <div class="pulse-indicator"></div>
+                            <h3>Your Mental Health Assistant:</h3>
+                        </div>
+                        <p id="responseText"></p>
+                        <div class="speaking-indicator hidden" id="speakingIndicator">
+                            <i class="fas fa-play"></i>
+                            Speaking...
+                        </div>
+                    </div>
+
+                    <!-- Reset Button -->
+                    <button class="btn btn-outline hidden" id="resetBtn">
+                        Start New Session
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crisis Helplines Section -->
+        <section id="helplines" class="helplines-section">
+            <div class="container">
+                <h2 class="section-title">Crisis Support Helplines</h2>
+                <div class="helplines-grid">
+                    <div class="helpline-card urgent">
+                        <div class="helpline-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>Emergency Crisis</h3>
+                        <p>If you're in immediate danger</p>
+                        <a href="tel:911" class="helpline-number">911</a>
+                    </div>
+                    
+                    <div class="helpline-card">
+                        <div class="helpline-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>National Suicide Prevention</h3>
+                        <p>24/7 crisis support and prevention</p>
+                        <a href="tel:988" class="helpline-number">988</a>
+                    </div>
+                    
+                    <div class="helpline-card">
+                        <div class="helpline-icon">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <h3>Crisis Text Line</h3>
+                        <p>Text-based crisis support</p>
+                        <a href="sms:741741" class="helpline-number">Text HOME to 741741</a>
+                    </div>
+                    
+                    <div class="helpline-card">
+                        <div class="helpline-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Mental Health Support</h3>
+                        <p>General mental health resources</p>
+                        <a href="tel:1-800-662-4357" class="helpline-number">1-800-662-HELP</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <span class="logo-text">MindSpace</span>
+                    </div>
+                    <p>Your safe space for mental wellness, available 24/7 with empathetic support and guidance.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#features">How it Works</a></li>
+                        <li><a href="#helplines">Crisis Resources</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Self-Care Tips</a></li>
+                        <li><a href="#">Mental Health Articles</a></li>
+                        <li><a href="#">Community Support</a></li>
+                        <li><a href="#">Professional Help</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 MindSpace. Supporting mental wellness with compassion and care.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script-enhanced.js"></script>
+</body>
+</html>

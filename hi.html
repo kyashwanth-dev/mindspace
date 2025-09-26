@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindSpace - Your Mental Health Companion</title>
+    <meta name="description" content="24/7 multilingual mental health support with AI-powered empathetic conversations, self-care guidance, and crisis helplines. Private, accessible, and always available.">
+    <link rel="stylesheet" href="styling.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Enhanced Voice Assistant Styling */
+        .voice-assistant-hero {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .voice-assistant-hero .voice-control {
+            margin-bottom: 1rem;
+        }
+        
+        .voice-assistant-hero .voice-status {
+            font-size: 1.1rem;
+            color: var(--foreground);
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+        
+        .hero-card .transcript-card,
+        .hero-card .response-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: var(--shadow);
+            text-align: left;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .hero-card .transcript-card h4,
+        .hero-card .response-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .hero-card .response-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero-card .pulse-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .hero-card .speaking-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .hero-card .speaking-indicator i {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Enhanced button styling */
+        .voice-assistant-hero .btn {
+            transition: all 0.3s ease;
+        }
+        
+        .voice-assistant-hero .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .voice-assistant-hero .btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body> 
+  <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-content"> 
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <span class="logo-text">MindSpace</span>
+                </div>
+
+                <nav class="nav-desktop">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#support" class="nav-link">Support</a>
+                    <a href="#helplines" class="nav-link">Crisis Helplines</a>
+                </nav>
+                
+                
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <nav class="mobile-nav">
+                    <a href="#home" class="mobile-nav-link">Home</a>
+                    <a href="#features" class="mobile-nav-link">Features</a>
+                    <a href="#support" class="mobile-nav-link">Support</a>
+                    <a href="#helplines" class="mobile-nav-link">Crisis Helplines</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Hero Section with Voice Assistant -->
+        <section id="home" class="hero-section">
+            <div class="hero-background">
+                <div class="floating-element floating-1"></div>
+                <div class="floating-element floating-2"></div>
+                <div class="floating-element floating-3"></div>
+            </div>
+            
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">
+                            Your <span class="gradient-text">Safe Space</span> for Mental Wellness
+                        </h1>
+                        <p class="hero-description">
+                            24/7 multilingual mental health support with empathetic AI conversations, 
+                            personalized self-care guidance, and immediate access to crisis helplines. 
+                            Private, accessible, and always here when you need us.
+                        </p>
+                        <div class="hero-features">
+                            <div class="feature-item">
+                                <i class="fas fa-lock"></i>
+                                <span>100% Private & Confidential</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-clock"></i> 
+                                <span>Available 24/7</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-globe"></i>
+                                <span>Multilingual Support</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Beautiful Voice Controls -->
+                        <div class="voice-assistant-hero">
+                            <div class="voice-control">
+                                <button class="voice-btn" id="startBtn">
+                                    <i class="fas fa-microphone" id="voiceIcon"></i>
+                                    <div class="voice-ripple" id="voiceRipple1"></div>
+                                    <div class="voice-ripple" id="voiceRipple2"></div>
+                                </button>
+                                <p class="voice-status" id="voiceStatus">Tap to start your healing conversation</p>
+                            </div>
+                            
+                            <button class="btn btn-secondary btn-lg" id="stopBtn" disabled style="margin-top: 1rem;">
+                                <i class="fas fa-stop"></i>
+                                Stop
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-visual">
+                        <div class="hero-card">
+                            <div class="breathing-circle"></div>   
+                            <p class="hero-card-text">"Take a deep breath. You're not alone in this journey."</p>
+                            
+                            <!-- Transcript Display -->
+                            <div class="transcript-card hidden" id="transcriptCard">
+                                <h4>What you shared:</h4>
+                                <p id="transcriptText"></p>
+                            </div>
+
+                            <!-- AI Response Display -->
+                            <div class="response-card hidden" id="responseCard">
+                                <div class="response-header">
+                                    <div class="pulse-indicator"></div>
+                                    <h4>Your Mental Health Assistant:</h4>
+                                </div>
+                                <p id="responseText"></p>
+                                <div class="speaking-indicator hidden" id="speakingIndicator">
+                                    <i class="fas fa-play"></i>
+                                    Speaking with care...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </section>
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <div class="container">
+                <h2 class="section-title">How MindSpace Supports You</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Empathetic Conversations</h3>
+                        <p>AI-powered conversations that truly understand your emotions and provide meaningful support.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart-pulse"></i>
+                        </div>
+                        <h3>Self-Care Guidance</h3>
+                        <p>Personalized mindfulness exercises, breathing techniques, and wellness strategies.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-phone-volume"></i>
+                        </div>
+                        <h3>Crisis Support</h3>
+                        <p>Immediate connection to professional helplines and emergency mental health resources.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3>Voice Interaction</h3>
+                        <p>Natural voice conversations that feel personal and comfortable, whenever you need them.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Crisis Helplines Section -->
+        <section id="helplines" class="helplines-section">
+            <div class="container">
+                <h2 class="section-title">Crisis Support Helplines</h2>
+                <div class="helplines-grid">
+                    <div class="helpline-card urgent">
+                        <div class="helpline-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>Emergency Crisis</h3>
+                        <p>If you're in immediate danger</p>
+                        <a href="tel:911" class="helpline-number">911</a>
+                    </div>
+                    
+                    <div class="helpline-card">
+                        <div class="helpline-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>National Suicide Prevention</h3>
+                        <p>24/7 crisis support and prevention</p>
+                        <a href="tel:988" class="helpline-number">988</a>
+                    </div>
+                    
+                    <div class="helpline-card">
+                        <div class="helpline-icon">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <h3>Crisis Text Line</h3>
+                        <p>Text-based crisis support</p>
+                        <a href="sms:741741" class="helpline-number">Text HOME to 741741</a>
+                    </div>
+                    
+                    <div class="helpline-card">
+                        <div class="helpline-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Mental Health Support</h3>
+                        <p>General mental health resources</p>
+                        <a href="tel:1-800-662-4357" class="helpline-number">1-800-662-HELP</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <span class="logo-text">MindSpace</span>
+                    </div>
+                    <p>Your safe space for mental wellness, available 24/7 with empathetic support and guidance.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#features">How it Works</a></li>
+                        <li><a href="#helplines">Crisis Resources</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Self-Care Tips</a></li>
+                        <li><a href="#">Mental Health Articles</a></li>
+                        <li><a href="#">Community Support</a></li>
+                        <li><a href="#">Professional Help</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 MindSpace. Supporting mental wellness with compassion and care.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hidden Audio Elements -->
+    <audio id="audioPlayback" style="display: none;"></audio>
+    <audio id="ttsAudio" autoplay style="display: none;">
+        <source src="aud_op/current_audio.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // ================================
+        // MindSpace Beautiful Voice Assistant
+        // ================================
+        
+        let mediaRecorder;
+        let audioChunks = [];
+
+        // Utility functions
+        const $ = id => document.getElementById(id);
+        const hide = el => el?.classList.add("hidden");
+        const show = el => el?.classList.remove("hidden");
+
+        // Enhanced UI update functions
+        function updateVoiceStatus(message, isRecording = false) {
+            const statusEl = $("voiceStatus");
+            const iconEl = $("voiceIcon");
+            const ripple1 = $("voiceRipple1");
+            const ripple2 = $("voiceRipple2");
+            
+            if (statusEl) statusEl.textContent = message;
+            
+            if (isRecording) {
+                if (iconEl) iconEl.className = "fas fa-microphone-slash";
+                if (ripple1) ripple1.style.animation = "ripple 2s infinite";
+                if (ripple2) ripple2.style.animation = "ripple 2s infinite 0.5s";
+            } else {
+                if (iconEl) iconEl.className = "fas fa-microphone";
+                if (ripple1) ripple1.style.animation = "";
+                if (ripple2) ripple2.style.animation = "";
+            }
+        }
+
+        function showTranscript(text) {
+            const transcriptCard = $("transcriptCard");
+            const transcriptText = $("transcriptText");
+            if (transcriptCard && transcriptText) {
+                transcriptText.textContent = text;
+                show(transcriptCard);
+            }
+        }
+
+        function showAIResponse(text) {
+            const responseCard = $("responseCard");
+            const responseText = $("responseText");
+            const speakingIndicator = $("speakingIndicator");
+            
+            if (responseCard && responseText) {
+                responseText.textContent = text;
+                show(responseCard);
+                show(speakingIndicator);
+                
+                // Hide speaking indicator after 4 seconds
+                setTimeout(() => hide(speakingIndicator), 4000);
+            }
+        }
+
+        // Enhanced start recording function
+        $("startBtn").onclick = async () => {
+            try {
+                updateVoiceStatus("Requesting microphone access...", false);
+                
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    $("audioPlayback").src = audioUrl;
+
+                    const timestamp = Date.now();
+                    const formData = new FormData();
+                    formData.append("audio", audioBlob, `recording-${timestamp}.mp3`);
+                    
+                    try {
+                        updateVoiceStatus("Processing your voice with AI...", false);
+                        console.log("Uploading audio file and processing...");
+                        
+                        const response = await fetch("http://localhost:3000/upload-to-s3", {
+                            method: "POST",
+                            body: formData
+                        });
+                        
+                        if (response.ok) {
+                            const result = await response.json();
+                            console.log("Upload and processing successful:", result);
+                            
+                            if (result.success) {
+                                console.log("✅ Complete AI pipeline finished!");
+                                console.log("📄 Original speech:", result.transcribedText);
+                                console.log("🧠 AI Response:", result.aiResponse);
+                                console.log("🎵 Audio file ready:", result.audioFile);
+                                
+                                // Show transcript in beautiful UI
+                                showTranscript(result.transcribedText);
+                                
+                                // Show AI response in beautiful UI
+                                showAIResponse(result.aiResponse);
+                                
+                                // Force refresh and play the new audio
+                                const timestamp = new Date().getTime();
+                                const ttsAudio = $("ttsAudio");
+                                ttsAudio.src = `aud_op/current_audio.mp3?t=${timestamp}`;
+                                ttsAudio.load();
+                                
+                                try {
+                                    await ttsAudio.play();
+                                    console.log("🎵 Playing new AI response audio");
+                                    updateVoiceStatus("🎵 Playing your personalized response", false);
+                                } catch (playError) {
+                                    console.log("Auto-play blocked, user interaction required");
+                                    updateVoiceStatus("Response ready - click to play audio", false);
+                                }
+                            }
+                        } else {
+                            console.error("Upload failed with status:", response.status);
+                            const errorResult = await response.json();
+                            console.error("Error details:", errorResult);
+                            updateVoiceStatus("Processing failed. Please try again.", false);
+                        }
+                    } catch (error) {
+                        console.error("Network error:", error);
+                        updateVoiceStatus("Connection error. Please check server.", false);
+                    }
+                };
+
+                $("startBtn").disabled = true;
+                $("stopBtn").disabled = false;
+                updateVoiceStatus("🎤 Recording... Share what's on your mind", true);
+                
+            } catch (error) {
+                console.error("Microphone access error:", error);
+                updateVoiceStatus("Microphone access denied. Please grant permission.", false);
+            }
+        };
+
+        // Enhanced stop recording function
+        $("stopBtn").onclick = () => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                
+                // Stop all tracks to free up the microphone
+                if (mediaRecorder.stream) {
+                    mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                }
+            }
+            
+            $("startBtn").disabled = false;
+            $("stopBtn").disabled = true;
+            updateVoiceStatus("Processing your voice... Please wait", false);
+        };
+
+        // Enhanced mobile menu functionality
+        const mobileMenuToggle = $("mobileMenuToggle");
+        const mobileMenu = $("mobileMenu");
+        
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener("click", () => {
+                mobileMenu.classList.toggle("active");
+            });
+        }
+
+        // Smooth scroll for navigation links
+        document.addEventListener("click", (e) => {
+            const link = e.target.closest("a[href^='#']");
+            if (!link) return;
+            
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute("href"));
+            if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+                if (mobileMenu) mobileMenu.classList.remove("active");
+            }
+        });
+
+
+        // Auto-detect and play new audio files with beautiful UI updates
+        let lastAudioCheck = 0;
+        const ttsAudio = $("ttsAudio");
+        
+        // Function to check for new audio file
+        async function checkForNewAudio() {
+            try {
+                const timestamp = new Date().getTime();
+                const response = await fetch(`aud_op/current_audio.mp3?t=${timestamp}`, { method: 'HEAD' });
+                
+                if (response.ok) {
+                    const lastModified = response.headers.get('last-modified');
+                    const currentCheck = new Date(lastModified).getTime();
+                    
+                    if (currentCheck > lastAudioCheck) {
+                        lastAudioCheck = currentCheck;
+                        updateVoiceStatus("🎵 New AI response detected! Auto-playing...", false);
+                        
+                        // Load and play new audio
+                        ttsAudio.src = `aud_op/current_audio.mp3?t=${timestamp}`;
+                        ttsAudio.load();
+                        
+                        // Auto-play (with user gesture fallback)
+                        try {
+                            await ttsAudio.play();
+                            updateVoiceStatus("▶️ Playing your personalized AI response", false);
+                        } catch (playError) {
+                            updateVoiceStatus("⚠️ Response ready - click to play", false);
+                            console.log("Auto-play blocked, user interaction required");
+                        }
+                    }
+                } else {
+                    updateVoiceStatus("⏳ Waiting for AI-processed response...", false);
+                }
+            } catch (error) {
+                console.log("Audio check failed (normal if no file exists yet)");
+            }
+        }
+        
+        // Function to delete audio file after playback
+        async function deleteAudioAfterPlayback() {
+            try {
+                await fetch('/delete-audio', { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename: 'current_audio.mp3' })
+                });
+                updateVoiceStatus("🗑️ Session complete - Ready for new conversation", false);
+                console.log("AI response audio deleted after playback");
+            } catch (error) {
+                console.log("Could not delete audio file:", error);
+            }
+        }
+        
+        // Enhanced audio event listeners
+        if (ttsAudio) {
+            ttsAudio.addEventListener("ended", () => {
+                deleteAudioAfterPlayback();
+                updateVoiceStatus("✅ Response complete - How else can I help?", false);
+
+                // Reset for next use
+                ttsAudio.controls = false;
+                ttsAudio.pause();
+                ttsAudio.removeAttribute("src");
+                
+                // Re-enable start button for new conversation
+                setTimeout(() => {
+                    $("startBtn").disabled = false;
+                    updateVoiceStatus("Tap to start a new healing conversation", false);
+                }, 2000);
+            });
+            
+            ttsAudio.addEventListener('play', () => {
+                updateVoiceStatus("▶️ Playing your personalized AI response", false);
+            });
+            
+            ttsAudio.addEventListener('pause', () => {
+                updateVoiceStatus("⏸️ AI response paused", false);
+            });
+        }
+        
+        // Keyboard accessibility
+        document.addEventListener("keydown", (e) => {
+            // Space bar to start/stop recording
+            if (e.code === "Space" && e.target.tagName !== "INPUT" && e.target.tagName !== "TEXTAREA") {
+                e.preventDefault();
+                if (!$("startBtn").disabled) {
+                    $("startBtn").click();
+                } else if (!$("stopBtn").disabled) {
+                    $("stopBtn").click();
+                }
+            }
+        });
+        
+        // Check for new audio every 2 seconds
+        setInterval(checkForNewAudio, 2000);
+        
+        // Initial setup
+        updateVoiceStatus("Tap to start your healing conversation", false);
+        checkForNewAudio();
+        
+        console.log("🎤 MindSpace Beautiful Voice Assistant Loaded");
+        console.log("✨ Features: Beautiful UI + Perfect voice functionality");
+        console.log("🔧 Server running at localhost:3000");
+    </script>
+</body>
+</html>
