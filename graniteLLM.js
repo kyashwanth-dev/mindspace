@@ -6,7 +6,7 @@ process.env.IBM_CREDENTIALS_FILE = './.env';
 
 const watsonxAIService = WatsonXAI.newInstance({
   version: '2024-05-31',
-  serviceUrl: 'https://us-south.ml.cloud.ibm.com',
+  serviceUrl: process.env.WATSONX_URL,
 });
 
 /**
@@ -28,8 +28,8 @@ async function generateTextWithGranite(inputText, options = {}) {
     // Set default parameters (reduced maxTokens for better speech synthesis)
     const {
       modelId = 'ibm/granite-13b-instruct-v2',
-      projectId = '4249b208-f034-4952-9a03-43855db4e10c',
-      maxTokens = 300  // Reduced from 1000 to 300 for shorter, more concise responses
+      projectId = process.env.PROJECT_ID,
+      maxTokens = 1000  // Reduced from 1000 to 300 for shorter, more concise responses
     } = options;
 
     // Add system prompt for mental health assistant with concise responses
@@ -66,3 +66,4 @@ async function generateTextWithGranite(inputText, options = {}) {
 module.exports = { generateTextWithGranite };
 
 // Example usage (uncomment to test):
+// generateTextWithGranite("I'm feeling really anxious about my upcoming exams. Can you help me calm down?")

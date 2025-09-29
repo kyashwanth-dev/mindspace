@@ -24,6 +24,13 @@ app.use((req, res, next) => {
   }
 });
 
+// Serve static files (CSS, JS, images, audio)
+app.use(express.static(__dirname));
+
+// Serve hi.html for root path
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'hi.html'));
+});
 const s3 = new S3Client({
   region: process.env.AWS_REGION || 'ap-southeast-2',
   credentials: {

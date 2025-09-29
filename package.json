@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node help.js"
+  },
   "dependencies": {
     "@aws-sdk/client-polly": "^3.895.0",
     "@aws-sdk/client-s3": "^3.896.0",
