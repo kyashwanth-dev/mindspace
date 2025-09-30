@@ -2,7 +2,7 @@ require('dotenv').config();
 const { WatsonXAI } = require('@ibm-cloud/watsonx-ai');
 
 // IBM Watsonx.ai setup
-process.env.IBM_CREDENTIALS_FILE = './.env';
+// process.env.IBM_CREDENTIALS_FILE = './.env';
 
 const watsonxAIService = WatsonXAI.newInstance({
   version: '2024-05-31',
