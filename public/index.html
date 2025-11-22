@@ -439,7 +439,7 @@
                         updateVoiceStatus("Processing your voice with AI...", false);
                         console.log("Uploading audio file and processing...");
                         
-                        const response = await fetch("https://mindspace-2.onrender.com/upload-to-s3", {
+                        const response = await fetch("http://localhost:3000/upload-to-s3", {
                             method: "POST",
                             body: formData
                         });
@@ -545,7 +545,7 @@
         async function checkForNewAudio() {
             try {
                 const timestamp = new Date().getTime();
-                const response = await fetch(`aud_op/current_audio.mp3?t=${timestamp}`, { method: 'HEAD' });
+                const response = await fetch(`/public/aud_op/current_audio.mp3`, { method: 'HEAD' });
                 
                 if (response.ok) {
                     const lastModified = response.headers.get('last-modified');

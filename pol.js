@@ -17,7 +17,7 @@ const polly = new PollyClient({
 });
 
 const s3 = new S3Client({
-  region: process.env.AWS_REGION || 'ap-southeast-2',
+  region: process.env.AWS_REGION,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -25,10 +25,10 @@ const s3 = new S3Client({
 });
 
 // Create aud_op directory if it doesn't exist
-const audioOutputDir = path.join(__dirname, 'aud_op');
+const audioOutputDir = path.join(__dirname, 'public/aud_op');
 if (!fs.existsSync(audioOutputDir)) {
   fs.mkdirSync(audioOutputDir, { recursive: true });
-  console.log('📁 Created aud_op directory');
+  console.log('📁 Created public/aud_op directory');
 }
 
 // Function to clear previous audio files from aud_op folder
@@ -82,7 +82,7 @@ async function synthesizeSpeech(textInput, options = {}) {
     voiceId: 'Joanna',
     outputFormat: 'mp3',
     outputFileName: 'current_audio.mp3', // Fixed filename for easy HTML embedding
-    bucketName: 'mint-out1' // S3 bucket name
+    bucketName: 'mint-out' // S3 bucket name
   };
   
   const config = { ...defaultOptions, ...options };
@@ -105,7 +105,7 @@ async function synthesizeSpeech(textInput, options = {}) {
     console.log('📝 Processed text length:', processedText.length);
     console.log('📝 Text preview:', processedText.substring(0, 100) + (processedText.length > 100 ? '...' : ''));
     console.log('🗣️ Voice:', config.voiceId);
-    console.log('📁 Output folder: aud_op');
+    console.log('📁 Output folder: public/aud_op');
     console.log('🪣 S3 Bucket:', config.bucketName);
     // Clear previous audio files
     clearPreviousAudio();
@@ -143,7 +143,7 @@ async function synthesizeSpeech(textInput, options = {}) {
       success: true,
       localFileName: config.outputFileName,
       localFilePath: localFilePath,
-      relativePath: `aud_op/${config.outputFileName}`,
+      relativePath: `public/aud_op/${config.outputFileName}`,
       s3FileName: s3FileName,
       bucketName: config.bucketName,
       s3Url: `s3://${config.bucketName}/${s3FileName}`,
@@ -161,9 +161,9 @@ async function synthesizeSpeech(textInput, options = {}) {
 // Export the function for use in other modules
 module.exports = { synthesizeSpeech };
 
-// Example usage (uncomment to test):
-// synthesizeSpeech("halwa made in electric cooker by hulk is an electric type pokemon").then(result => {
-//   // console.log("Result:", result);
+
+  // synthesizeSpeech("halwa made in electric cooker by hulk is an electric type pokemon")
+//    console.log("Result:", result);
 // });
 
 // Example with custom bucket and filename:

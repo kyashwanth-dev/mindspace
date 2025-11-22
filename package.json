@@ -8,7 +8,9 @@
     "@aws-sdk/client-transcribe": "^3.896.0",
     "@ibm-cloud/watsonx-ai": "^1.6.13",
     "aws-sdk": "^2.1692.0",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
+    "ibm-cloud-sdk-core": "^5.4.4",
     "ibm-watson": "^11.0.0",
     "multer": "^2.0.2"
   }

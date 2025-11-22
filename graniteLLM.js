@@ -1,13 +1,21 @@
 require('dotenv').config();
 const { WatsonXAI } = require('@ibm-cloud/watsonx-ai');
+const { IamAuthenticator } = require('ibm-cloud-sdk-core');
 
-// IBM Watsonx.ai setup
-// process.env.IBM_CREDENTIALS_FILE = './.env';
-
-const watsonxAIService = WatsonXAI.newInstance({
+// Build client config using environment variables
+const config = {
+  authenticator: new IamAuthenticator({ apikey: process.env.WATSONX_AI_APIKEY }),
+  serviceUrl: process.env.WATSONX_AI_URL,
   version: '2024-05-31',
-  serviceUrl: process.env.WATSONX_URL,
-});
+};
+
+let watsonxAI;
+try {
+  // Instantiate the client using the SDK constructor
+  watsonxAI = new WatsonXAI(config);
+} catch (e) {
+  watsonxAI = null;
+}
 
 /**
  * Generate text using IBM Watsonx Granite LLM
@@ -24,38 +32,35 @@ async function generateTextWithGranite(inputText, options = {}) {
     if (!inputText || typeof inputText !== 'string') {
       throw new Error('Input text is required and must be a string');
     }
-
-    // Set default parameters (reduced maxTokens for better speech synthesis)
-    const {
-      modelId = 'ibm/granite-13b-instruct-v2',
-      projectId = process.env.PROJECT_ID,
-      maxTokens = 1000  // Reduced from 1000 to 300 for shorter, more concise responses
-    } = options;
-
-    // Add system prompt for mental health assistant with concise responses
-    const systemPrompt = "You are a compassionate mental health assistant. Provide supportive, empathetic, and concise responses (2-3 sentences maximum) that can be easily converted to speech. Focus on being helpful and understanding while keeping responses brief and clear.";
-    const formattedInput = `${systemPrompt}\n\nUser: ${inputText}\n\nAssistant:`;
-    
-    const watsonParams = {
-      input: formattedInput,
-      modelId: modelId,
-      projectId: projectId,
+    // Use requested options or sensible defaults per user snippet
+    const params = {
+      input: inputText,
+      modelId: options.modelId || process.env.WATSONX_AI_MODEL_ID || 'ibm/granite-3-3-8b-instruct',
+      projectId: options.projectId || process.env.WATSONX_AI_PROJECT_ID || process.env.WATSONX_AI_PROJECT_ID,
       parameters: {
-        max_new_tokens: maxTokens,
+        max_new_tokens: (options.max_new_tokens || 100),
+        temperature: (options.temperature ?? 0.7),
+        top_p: (options.top_p ?? 0.9),
       },
     };
 
+    if (!watsonxAI) throw new Error('Watsonx client not initialized. Ensure WATSONX_AI_APIKEY and WATSONX_AI_URL are set.');
+
     console.log('🧠 Sending request to Watsonx Granite LLM...');
-    console.log('📝 Input text:', inputText.substring(0, 100) + (inputText.length > 100 ? '...' : ''));
-    
-    // Generate text with Watsonx.ai
-    const res = await watsonxAIService.generateText(watsonParams);
-    const generatedText = res.result.results[0].generated_text;
-    
-    // console.log('✅ Watsonx.ai response received');
-    // console.log('📄 Generated text:', generatedText.substring(0, 200) + (generatedText.length > 200 ? '...' : ''));
-    
-    return generatedText;
+    console.log('📝 Prompt preview:', inputText.substring(0, 120) + (inputText.length > 120 ? '...' : ''));
+
+    const response = await watsonxAI.generateText(params);
+
+    if (response && response.result && Array.isArray(response.result.results) && response.result.results.length) {
+      return response.result.results[0].generated_text.trim();
+    }
+
+    // fallback shapes
+    if (response && response.result && response.result.generations && response.result.generations[0]) {
+      return (response.result.generations[0].text || '').trim();
+    }
+
+    return 'No result field in response';
   } catch (err) {
     console.error('❌ Error during text generation:', err.message);
     throw new Error(`Watsonx Granite LLM error: ${err.message}`);
@@ -65,5 +70,5 @@ async function generateTextWithGranite(inputText, options = {}) {
 // Export the function for use in other modules
 module.exports = { generateTextWithGranite };
 
-// Example usage (uncomment to test):
-// generateTextWithGranite("I'm feeling really anxious about my upcoming exams. Can you help me calm down?")
+// Example usage when run directly
+// generateTextWithGranite("Explain the theory of relativity in simple terms.")

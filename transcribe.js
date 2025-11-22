@@ -7,7 +7,8 @@ const {
 const {
   S3Client,
   GetObjectCommand,
-  PutObjectCommand
+  PutObjectCommand,
+  HeadObjectCommand
 } = require("@aws-sdk/client-s3");
 const { Readable } = require("stream");
 
@@ -30,7 +31,7 @@ const s3Client = new S3Client({
   }
 });
 
-const bucketName = "mint-bucket1";
+const bucketName = "mint-in";
 
 const startTranscription = async (jobName, audioFile) => {
   const params = {
@@ -42,6 +43,28 @@ const startTranscription = async (jobName, audioFile) => {
     },
     OutputBucketName: bucketName
   };
+
+  // Validate S3 URI format before sending the request
+  const s3Uri = params.Media.MediaFileUri;
+  if (!s3Uri || !/^s3:\/\/[^\/]+\/.+/.test(s3Uri)) {
+    throw new Error(`Invalid S3 URI constructed for Transcribe: ${s3Uri}`);
+  }
+  console.log(`Starting transcription job with MediaFileUri: ${s3Uri}`);
+
+  // Verify the S3 object exists and is accessible before calling Transcribe
+  try {
+    const headCmd = new HeadObjectCommand({ Bucket: bucketName, Key: audioFile });
+    await s3Client.send(headCmd);
+  } catch (headErr) {
+    // Provide a clearer error to the caller
+    throw new Error(`S3 object not found or inaccessible: s3://${bucketName}/${audioFile} -- ${headErr.message}`);
+  }
+
+  // Optionally include a DataAccessRoleArn so Amazon Transcribe can access private S3 objects
+  if (process.env.TRANSCRIBE_DATA_ACCESS_ROLE_ARN) {
+    params.DataAccessRoleArn = process.env.TRANSCRIBE_DATA_ACCESS_ROLE_ARN;
+    console.log(`Using DataAccessRoleArn: ${process.env.TRANSCRIBE_DATA_ACCESS_ROLE_ARN}`);
+  }
 
   const command = new StartTranscriptionJobCommand(params);
   const response = await transcribeClient.send(command);
@@ -123,6 +146,6 @@ const transcribeAudio = async (mp3FileName) => {
 module.exports = { transcribeAudio };
 
 // Example usage (uncomment to test):
-// transcribeAudio("polly-output2.mp3").then(result => {
+// transcribeAudio("polly-output-1763792857376.mp3").then(result => {
 //   console.log("Transcription result:", result);
 // });

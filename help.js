@@ -9,7 +9,6 @@ const { synthesizeSpeech } = require("./pol.js");
 const { generateTextWithGranite } = require("./graniteLLM.js");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 const upload = multer();
 
 // Enable CORS for local development
@@ -26,12 +25,12 @@ app.use((req, res, next) => {
 
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, 'public')));
+
 const s3 = new S3Client({
-  region: process.env.AWS_REGION || 'ap-southeast-2',
+  region: process.env.AWS_REGION,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    sessionToken: process.env.AWS_SESSION_TOKEN,
   }
 });
 
@@ -115,7 +114,7 @@ app.post("/upload-to-s3", upload.single("audio"), async (req, res) => {
   const fileName = `recording-${timestamp}.mp3`;
 
   const command = new PutObjectCommand({
-    Bucket: "mint-bucket1",
+    Bucket: "mint-in",
     Key: fileName,
     Body: req.file.buffer,
     ContentType: "audio/mp3"
@@ -127,7 +126,7 @@ app.post("/upload-to-s3", upload.single("audio"), async (req, res) => {
     console.log("✅ S3 upload successful:", result);
     
     // Wait 5-10 seconds before starting transcription
-    const delay = 7000; // Fixed delay of 7 seconds
+    const delay = 5000; // Fixed delay of 7 seconds
     console.log(`⏳ Waiting ${delay/1000} seconds before starting transcription...`);
     
     // Wait for the delay, then process the complete AI pipeline
@@ -236,7 +235,7 @@ app.get("/pipeline-status", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(3000, () => {
   console.log("🚀 AI Pipeline Server running on http://localhost:3000");
   console.log("🔄 Pipeline: Speech Input → Transcribe → Granite LLM → Speech Output");
   console.log("📡 Endpoints available:");
