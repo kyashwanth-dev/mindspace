@@ -238,7 +238,7 @@ app.get("/pipeline-status", (req, res) => {
 
 app.listen(Port, () => {
   console.log(Port);
-  console.log(`🚀 AI Pipeline Server running on https://mindspace-3.onrender.com/`);
+  console.log(`🚀 AI Pipeline Server running on https://mindspaceai.onrender.com/`);
   console.log("🔄 Pipeline: Speech Input → Transcribe → Granite LLM → Speech Output");
   console.log("📡 Endpoints available:");
   console.log("   - POST /upload-to-s3 (Complete pipeline)");
