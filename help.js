@@ -10,6 +10,7 @@ const { generateTextWithGranite } = require("./graniteLLM.js");
 
 const app = express();
 const upload = multer();
+const PORT = process.env.PORT;
 
 // Enable CORS for local development
 app.use((req, res, next) => {
@@ -235,8 +236,8 @@ app.get("/pipeline-status", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("🚀 AI Pipeline Server running on http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`🚀 AI Pipeline Server running on http://localhost:${PORT}`);
   console.log("🔄 Pipeline: Speech Input → Transcribe → Granite LLM → Speech Output");
   console.log("📡 Endpoints available:");
   console.log("   - POST /upload-to-s3 (Complete pipeline)");
